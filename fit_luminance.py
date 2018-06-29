@@ -1,12 +1,29 @@
 # -*- coding: utf-8 -*-
 
+"""
+Plot and model projector luminance for visual neuroscience experiments.
 
+Projector luminance (measured with a photometer) plotted as a function of
+psychopy pixel intensity. Several functions are fitted to the data.
+
+Use @MSchnei's script for the luminance measurement:
+https://gist.github.com/MSchnei/bd282b1dbce85431ee61bbd955574279
 """
-The purpose of this script is to plot measured data and to fit models to that
-data. One use is, for instance, the plotting of luminance versus pixel
-intensity values as measured on the 7T projector.
-(C) Ingo Marquardt, 25.05.2016
-"""
+
+# Copyright (C) 2018  Ingo Marquardt
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 # *****************************************************************************
@@ -55,28 +72,28 @@ strPathOut = '/home/john/Desktop/'
 # *****************************************************************************
 # *** Functions
 
-# Define exponential function to be fitted to the measurement data:
 def funcExp(varX, varA, varB, varC):
+    """Exponential function to be fitted to the data."""
     varOut = varA * np.exp(-varB * varX) + varC
     return varOut
 
 
-# Define logarithmic function to be fitted to the measurement data:
 def funcLn(varX, varA, varB):
+    """Logarithmic function to be fitted to the data."""
     varOut = varA * np.log(varX) + varB
     return varOut
 
 
-# Define 2nd degree polynomial function to be fitted to the measurement data:
 def funcPoly2(varX, varA, varB, varC):
+    """2nd degree polynomial function to be fitted to the data."""
     varOut = (varA * np.power(varX, 2) +
               varB * np.power(varX, 1) +
               varC)
     return varOut
 
 
-# Define 3rd degree polynomial function to be fitted to the measurement data:
 def funcPoly3(varX, varA, varB, varC, varD):
+    """3rd degree polynomial function to be fitted to the data."""
     varOut = (varA * np.power(varX, 3) +
               varB * np.power(varX, 2) +
               varC * np.power(varX, 1) +
@@ -84,8 +101,8 @@ def funcPoly3(varX, varA, varB, varC, varD):
     return varOut
 
 
-# Define power function to be fitted to the measurement data:
 def funcPow(varX, varA, varB, varC, varD):
+    """Power function to be fitted to the data."""
     varOut = (varA * np.power((varX + varB), varC) + varD)
     return varOut
 # *****************************************************************************

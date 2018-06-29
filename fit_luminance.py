@@ -376,4 +376,7 @@ for idxPlt in range(0, len(lstModPre)):
                   edgecolor='w',
                   transparent=False,
                   frameon=None)
+
+    # Close figure:
+    plt.close(fig01)
 # *****************************************************************************

@@ -15,6 +15,7 @@ intensity values as measured on the 7T projector.
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+
 # *****************************************************************************
 
 
@@ -22,15 +23,11 @@ from scipy.optimize import curve_fit
 # *** Data to plot
 
 # Independent variable data:
-vecInd = np.array([1.0, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0.0,
-                   -0.125, -0.25, -0.375, -0.5, -0.625, -0.75, -0.875, -1.0])
+vecInd = np.linspace(-1.0, 1.0, num=17)
 
-# Dependent variable (measured data), in separat rows for repetitoins of the
-# measurement:
-vecDep = np.array([[475.0, 434.0, 402.0, 362.0, 323.0, 281.0, 240.0, 201.0,
-                    161.0, 121.0, 85.5, 57.8, 33.3, 15.6, 6.0, 1.5, 0.76],
-                   [488.0, 459.0, 423.0, 384.0, 341.0, 295.0, 252.0, 214.0,
-                    170.0, 127.0, 91.4, 51.5, 36.5, 15.6, 5.4, 1.28, 0.76]])
+# Path to csv file that contains measured luminance data
+# measurements repetitions should be in seperate rows
+strPathTsv = '/media/sf_D_DRIVE/MotDepPrf/NotesForms/Luminance/psyphy_lab/psyphy_lab_luminance.csv'
 
 # Label for x-axis (independent variable):
 strLblX = 'Pixel value [-1 to 1]'
@@ -45,10 +42,10 @@ strTlt = 'Luminance as a function of psychopy pixel intensity at 7T projector'
 vecXlim = [-1.1, 1.1]
 
 # Limits of y-axis:
-vecYlim = [-10.0, 500.0]
+vecYlim = [-10.0, 300.0]
 
 # Output directory for figures:
-strPathOut = '/home/john/Desktop/'
+strPathOut = '/media/sf_D_DRIVE/MotDepPrf/NotesForms/Luminance/psyphy_lab/'
 # *****************************************************************************
 
 
@@ -93,6 +90,13 @@ def funcPow(varX, varA, varB, varC, varD):
 
 # *****************************************************************************
 # *** Preparations
+
+# Load data from csv file into numpy array
+vecDep = np.loadtxt(strPathTsv, comments='#', delimiter=",",
+                    converters=None, skiprows=0)
+
+# transpose numpy array for further processing
+vecDep = vecDep.T
 
 # Calculate average of dependent variable:
 vecDepAvg = np.mean(vecDep, axis=0)

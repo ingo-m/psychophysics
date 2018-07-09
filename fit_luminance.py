@@ -1,12 +1,29 @@
 # -*- coding: utf-8 -*-
 
+"""
+Plot and model projector luminance for visual neuroscience experiments.
 
+Projector luminance (measured with a photometer) plotted as a function of
+psychopy pixel intensity. Several functions are fitted to the data.
+
+Use @MSchnei's script for the luminance measurement:
+https://gist.github.com/MSchnei/bd282b1dbce85431ee61bbd955574279
 """
-The purpose of this script is to plot measured data and to fit models to that
-data. One use is, for instance, the plotting of luminance versus pixel
-intensity values as measured on the 7T projector.
-(C) Ingo Marquardt, 25.05.2016
-"""
+
+# Copyright (C) 2018  Ingo Marquardt
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 # *****************************************************************************
@@ -30,13 +47,13 @@ vecInd = np.linspace(-1.0, 1.0, num=17)
 strPathTsv = '/media/sf_D_DRIVE/MotDepPrf/NotesForms/Luminance/psyphy_lab/psyphy_lab_luminance.csv'
 
 # Label for x-axis (independent variable):
-strLblX = 'Pixel value [-1 to 1]'
+strLblX = 'Psychopy pixel intensity'
 
 # Label for y-axis (dependent variable):
 strLblY = 'Luminance [cd/m^2]'
 
 # Figure title:
-strTlt = 'Luminance as a function of psychopy pixel intensity at 7T projector'
+strTlt = 'Luminance as a function of psychopy pixel intensity'
 
 # Limits of x-axis:
 vecXlim = [-1.1, 1.1]
@@ -45,35 +62,41 @@ vecXlim = [-1.1, 1.1]
 vecYlim = [-10.0, 300.0]
 
 # Output directory for figures:
-strPathOut = '/media/sf_D_DRIVE/MotDepPrf/NotesForms/Luminance/psyphy_lab/'
+
+strPathOut = '/home/john/Desktop/'
+
+# Figure dimensions:
+varSizeX = 1200.0
+varSizeY = 1000.0
+varDpi = 100.0
 # *****************************************************************************
 
 
 # *****************************************************************************
 # *** Functions
 
-# Define exponential function to be fitted to the measurement data:
 def funcExp(varX, varA, varB, varC):
-    varOut = varA * np.exp(-varB * varX) + varC
+    """Exponential function to be fitted to the data."""
+    varOut = varA * np.exp(varB * varX) + varC
     return varOut
 
 
-# Define logarithmic function to be fitted to the measurement data:
 def funcLn(varX, varA, varB):
+    """Logarithmic function to be fitted to the data."""
     varOut = varA * np.log(varX) + varB
     return varOut
 
 
-# Define 2nd degree polynomial function to be fitted to the measurement data:
 def funcPoly2(varX, varA, varB, varC):
+    """2nd degree polynomial function to be fitted to the data."""
     varOut = (varA * np.power(varX, 2) +
               varB * np.power(varX, 1) +
               varC)
     return varOut
 
 
-# Define 3rd degree polynomial function to be fitted to the measurement data:
 def funcPoly3(varX, varA, varB, varC, varD):
+    """3rd degree polynomial function to be fitted to the data."""
     varOut = (varA * np.power(varX, 3) +
               varB * np.power(varX, 2) +
               varC * np.power(varX, 1) +
@@ -81,8 +104,8 @@ def funcPoly3(varX, varA, varB, varC, varD):
     return varOut
 
 
-# Define power function to be fitted to the measurement data:
 def funcPow(varX, varA, varB, varC, varD):
+    """Power function to be fitted to the data."""
     varOut = (varA * np.power((varX + varB), varC) + varD)
     return varOut
 # *****************************************************************************
@@ -124,7 +147,7 @@ varTmpB = np.around(vecExpModelPar[1], 2)
 varTmpC = np.around(vecExpModelPar[2], 0)
 strModelExp = 'y = ' + \
               str(varTmpA) + \
-              ' e ^ ( -' + \
+              ' e ^ ( ' + \
               str(varTmpB) + \
               ' * x ) + ' + \
               str(varTmpC)
@@ -172,7 +195,7 @@ strModelPoly2 = 'y = ' + \
                 str(varTmpA) + \
                 ' * x^2 + ' + \
                 str(varTmpB) + \
-                ' * x^1 + ' + \
+                ' * x + ' + \
                 str(varTmpC)
 # *****************************************************************************
 
@@ -255,25 +278,45 @@ lstModPar = [strModelExp,
 # We create one plot per function:
 for idxPlt in range(0, len(lstModPre)):
 
-    fig01 = plt.figure()
+    # Create figure:
+    fig01 = plt.figure(figsize=((varSizeX * 0.5) / varDpi,
+                                (varSizeY * 0.5) / varDpi),
+                       dpi=varDpi)
 
     axs01 = fig01.add_subplot(111)
 
-    # Plot the average dependent data with error bars:
-    plt01 = axs01.errorbar(vecInd,
-                           vecDepAvg,
-                           yerr=vecStd,
-                           color='blue',
-                           label='Mean (SD)',
-                           linewidth=0.9,
-                           antialiased=True)
+    # Line colour:
+    vecClr = np.divide(np.array([56.0, 132.0, 184.0]), 255.0)
+    vecClrSd = np.divide(np.array([250.0, 138.0, 53.0]), 255.0)
+
+    # Plot depth profile for current input file:
+    plt01 = axs01.plot(vecInd,
+                       vecDepAvg,
+                       color=vecClr,
+                       alpha=0.9,
+                       label='Mean (SD)',
+                       linewidth=5.0,
+                       antialiased=True)
+
+    # Plot error shading:
+    plot02 = axs01.fill_between(vecInd,  #noqa
+                                np.subtract(vecDepAvg,
+                                            vecStd),
+                                np.add(vecDepAvg,
+                                       vecStd),
+                                alpha=0.2,
+                                edgecolor=vecClr,
+                                facecolor=vecClr,
+                                linewidth=0,
+                                antialiased=True)
 
     # Plot model prediction:
-    plt02 = axs01.plot(vecInd,
+    plt03 = axs01.plot(vecInd,
                        lstModPre[idxPlt],
-                       color='red',
+                       color=vecClrSd,
+                       alpha=0.9,
                        label=lstModPar[idxPlt],
-                       linewidth=1.0,
+                       linewidth=3.0,
                        antialiased=True)
 
     # Limits of the x-axis:
@@ -283,34 +326,62 @@ for idxPlt in range(0, len(lstModPre)):
     # Limits of the y-axis:
     axs01.set_ylim([vecYlim[0], vecYlim[1]])
 
-    # Adjust labels for axis 1:
-    axs01.tick_params(labelsize=10)
-    axs01.set_xlabel(strLblX, fontsize=9)
-    axs01.set_ylabel(strLblY, fontsize=9)
-    axs01.set_title(strTlt, fontsize=9)
+    # Which y values to label with ticks:
+    vecYlbl = np.linspace(0, vecYlim[1], num=6, endpoint=True)
+    # Round:
+    # Set ticks:
+    axs01.set_yticks(vecYlbl)
+
+    # Which x values to label with ticks:
+    vecXlbl = np.linspace(vecXlim[0], vecXlim[1], num=3, endpoint=True)
+    # Round:
+    vecXlbl = np.around(vecXlbl, decimals=0)
+    # Set ticks:
+    axs01.set_xticks(vecXlbl)
+
+    # Adjust labels:
+    axs01.tick_params(labelsize=16)
+    axs01.set_xlabel(strLblX, fontsize=13)
+    axs01.set_ylabel(strLblY, fontsize=13)
+    # axs01.set_title(strTlt, fontsize=13)
 
     # Add legend:
     axs01.legend(loc=0, prop={'size': 9})
 
     # Add vertical grid lines:
     axs01.xaxis.grid(which=u'major',
-                     color=([0.5, 0.5, 0.5]),
-                     linestyle='-',
-                     linewidth=0.3)
+                     color=([0.2, 0.2, 0.2]),
+                     linestyle=':',
+                     linewidth=0.2)
 
     # Add horizontal grid lines:
     axs01.yaxis.grid(which=u'major',
-                     color=([0.5, 0.5, 0.5]),
-                     linestyle='-',
-                     linewidth=0.3)
+                     color=([0.2, 0.2, 0.2]),
+                     linestyle=':',
+                     linewidth=0.2)
+
+    # Reduce framing box:
+    axs01.spines['top'].set_visible(False)
+    axs01.spines['right'].set_visible(False)
+    axs01.spines['bottom'].set_visible(True)
+    axs01.spines['left'].set_visible(True)
+
+    # Make plot & axis labels fit into figure (this may not always work,
+    # depending on the layout of the plot, matplotlib sometimes throws a
+    # ValueError ("left cannot be >= right").
+    try:
+        plt.tight_layout(pad=0.5)
+    except ValueError:
+        pass
 
     # Save figure:
     fig01.savefig((strPathOut + 'plot_' + str(idxPlt) + '.png'),
-                  dpi=200,
+                  dpi=varDpi,
                   facecolor='w',
                   edgecolor='w',
-                  orientation='landscape',
-                  papertype='a6',
                   transparent=False,
                   frameon=None)
+
+    # Close figure:
+    plt.close(fig01)
 # *****************************************************************************

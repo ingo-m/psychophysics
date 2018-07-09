@@ -44,7 +44,7 @@ vecInd = np.linspace(-1.0, 1.0, num=17)
 
 # Path to csv file that contains measured luminance data
 # measurements repetitions should be in seperate rows
-strPathTsv = '/media/sf_D_DRIVE/MotDepPrf/NotesForms/Luminance/psyphy_lab/psyphy_lab_luminance.csv'
+strPathCsv = '/home/john/Desktop/'
 
 # Label for x-axis (independent variable):
 strLblX = 'Psychopy pixel intensity'
@@ -115,7 +115,7 @@ def funcPow(varX, varA, varB, varC, varD):
 # *** Preparations
 
 # Load data from csv file into numpy array
-vecDep = np.loadtxt(strPathTsv, comments='#', delimiter=",",
+vecDep = np.loadtxt(strPathCsv, comments='#', delimiter=",",
                     converters=None, skiprows=0)
 
 # transpose numpy array for further processing

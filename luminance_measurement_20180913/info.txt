@@ -12,7 +12,7 @@ We performed a luminance measurement at the 7T, on 13.09.2018. The reasons for p
 
 See attached excel sheet with the results, separately for the NOVA coil and the Vision coil.
 
-We fitted several function to the data. A good fit was achieved with a third degree polynomial.
+We fitted several functions to the data. A good fit was achieved with a third degree polynomial.
 
 NOVA coil:
 

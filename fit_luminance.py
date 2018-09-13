@@ -39,15 +39,26 @@ from scipy.optimize import curve_fit
 # *** Data to plot
 
 # Independent variable data:
-vecInd = np.array([1.0, 0.875, 0.75, 0.625, 0.5, 0.375, 0.25, 0.125, 0.0,
-                   -0.125, -0.25, -0.375, -0.5, -0.625, -0.75, -0.875, -1.0])
+vecInd = np.linspace(-1.0, 1.0, num=17)
 
+# NOVA coil measurement 13.09.2018, filter = ND.3
 # Dependent variable (measured data), in separat rows for repetitoins of the
 # measurement:
-vecDep = np.array([[475.0, 434.0, 402.0, 362.0, 323.0, 281.0, 240.0, 201.0,
-                    161.0, 121.0, 85.5, 57.8, 33.3, 15.6, 6.0, 1.5, 0.76],
-                   [488.0, 459.0, 423.0, 384.0, 341.0, 295.0, 252.0, 214.0,
-                    170.0, 127.0, 91.4, 51.5, 36.5, 15.6, 5.4, 1.28, 0.76]])
+vecDep = np.array([[2.1, 4.2, 16.9, 44.5, 96.0, 163.0, 245.0, 347.0, 462.0,
+                    577.0, 690.0, 813.0, 935.0, 1060.0, 1180.0, 1290.0,
+                    1390.0],
+                   [2.15, 4.34, 16.8, 44.4, 95.1, 161.0, 242.0, 346.0, 459.0,
+                   572.0, 685.0, 808.0, 930.0, 1050.0, 1180.0, 1290.0,
+                   1390.0]])
+
+# Vision coil measurement 13.09.2018, filter = ND.3
+# Dependent variable (measured data), in separat rows for repetitoins of the
+# measurement:
+# vecDep = np.array([[2.2, 4.3, 16.3, 42.5, 90.9, 154.0, 232.0, 329.0, 435.0,
+#                     544.0, 653.0, 766.0, 881.0, 997.0, 1110.0, 1220.0, 1310.0],
+#                    [2.2, 4.3, 16.2, 42.5, 90.3, 155.0, 232.0, 329.0, 435.0,
+#                     545.0, 655.0, 766.0, 881.0, 997.0, 1110.0, 1210.0,
+#                     1300.0]])
 
 # Label for x-axis (independent variable):
 strLblX = 'Psychopy pixel intensity'
@@ -62,7 +73,7 @@ strTlt = 'Luminance as a function of psychopy pixel intensity'
 vecXlim = [-1.1, 1.1]
 
 # Limits of y-axis:
-vecYlim = [-10.0, 500.0]
+vecYlim = [-10.0, 1500.0]
 
 # Output directory for figures:
 strPathOut = '/home/john/Desktop/'
@@ -70,7 +81,7 @@ strPathOut = '/home/john/Desktop/'
 # Figure dimensions:
 varSizeX = 1200.0
 varSizeY = 1000.0
-varDpi = 100.0
+varDpi = 120.0
 # *****************************************************************************
 
 
@@ -322,7 +333,7 @@ for idxPlt in range(0, len(lstModPre)):
     axs01.set_ylim([vecYlim[0], vecYlim[1]])
 
     # Which y values to label with ticks:
-    vecYlbl = np.linspace(0, vecYlim[1], num=6, endpoint=True)
+    vecYlbl = np.linspace(0, vecYlim[1], num=4, endpoint=True)
     # Round:
     # Set ticks:
     axs01.set_yticks(vecYlbl)

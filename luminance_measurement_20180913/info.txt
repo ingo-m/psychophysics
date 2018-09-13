@@ -1,0 +1,33 @@
+We performed a luminance measurement at the 7T, on 13.09.2018. The reasons for performing the measurement was that the projection mirror (behind the scanner) had been replaced.
+
+- A photometer was used to test the actual luminance on the screen for a range of pixel intensities in Psychopy (with the 7T projector).
+
+- The filter TIFFEN ND .3 USA (neutral density, the most transparent filter of the three filters that are available) was used.
+
+- The patient table (and consequently the screen) was at the isocentre (like during an actual experiment with a human participant).
+
+- The lights in the scanner room were switched out. The light in the console room was on maximum, and the blinds at the window were closed (conditions chosen so as to be easily reproducible).
+
+- The measurements were taken from the foot end of the patient table, with the photometer resting on the edge of the patient table. The lens of the photometer was set to focus the screen sharply.
+
+See attached excel sheet with the results, separately for the NOVA coil and the Vision coil.
+
+We fitted several function to the data. A good fit was achieved with a third degree polynomial.
+
+NOVA coil:
+
+y = -195.9 * x^3 + 246.3 * x^2 + 887.4 * x + 454.4
+
+Vision coil:
+
+y = -190.2 * x^3 + 227.0 * x^2 + 839.3 * x + 431.3
+
+where `y` is the luminance [cd/m^2] and `x` is the pixel intensity (ranging from -1 to 1, where -1 is black and 1 is white). (See also attached figures.)
+
+For future reference and more detail, the Psychopy script used for the measurement, and the script used to fit the functions (including the measurement data) are available on Github:
+
+Presentation script:
+https://gist.github.com/MSchnei/bd282b1dbce85431ee61bbd955574279
+
+Data & analysis:
+https://github.com/ingo-m/psychophysics

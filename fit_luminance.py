@@ -32,6 +32,7 @@ https://gist.github.com/MSchnei/bd282b1dbce85431ee61bbd955574279
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+
 # *****************************************************************************
 
 
@@ -41,24 +42,9 @@ from scipy.optimize import curve_fit
 # Independent variable data:
 vecInd = np.linspace(-1.0, 1.0, num=17)
 
-# NOVA coil measurement 13.09.2018, filter = ND.3
-# Dependent variable (measured data), in separat rows for repetitoins of the
-# measurement:
-vecDep = np.array([[2.1, 4.2, 16.9, 44.5, 96.0, 163.0, 245.0, 347.0, 462.0,
-                    577.0, 690.0, 813.0, 935.0, 1060.0, 1180.0, 1290.0,
-                    1390.0],
-                   [2.15, 4.34, 16.8, 44.4, 95.1, 161.0, 242.0, 346.0, 459.0,
-                   572.0, 685.0, 808.0, 930.0, 1050.0, 1180.0, 1290.0,
-                   1390.0]])
-
-# Vision coil measurement 13.09.2018, filter = ND.3
-# Dependent variable (measured data), in separat rows for repetitoins of the
-# measurement:
-# vecDep = np.array([[2.2, 4.3, 16.3, 42.5, 90.9, 154.0, 232.0, 329.0, 435.0,
-#                     544.0, 653.0, 766.0, 881.0, 997.0, 1110.0, 1220.0, 1310.0],
-#                    [2.2, 4.3, 16.2, 42.5, 90.3, 155.0, 232.0, 329.0, 435.0,
-#                     545.0, 655.0, 766.0, 881.0, 997.0, 1110.0, 1210.0,
-#                     1300.0]])
+# Path to csv file that contains measured luminance data
+# measurements repetitions should be in seperate rows
+strPathCsv = '/home/john/Desktop/'
 
 # Label for x-axis (independent variable):
 strLblX = 'Psychopy pixel intensity'
@@ -73,15 +59,16 @@ strTlt = 'Luminance as a function of psychopy pixel intensity'
 vecXlim = [-1.1, 1.1]
 
 # Limits of y-axis:
-vecYlim = [-10.0, 1500.0]
+vecYlim = [-10.0, 300.0]
 
 # Output directory for figures:
+
 strPathOut = '/home/john/Desktop/'
 
 # Figure dimensions:
 varSizeX = 1200.0
 varSizeY = 1000.0
-varDpi = 120.0
+varDpi = 100.0
 # *****************************************************************************
 
 
@@ -126,6 +113,13 @@ def funcPow(varX, varA, varB, varC, varD):
 
 # *****************************************************************************
 # *** Preparations
+
+# Load data from csv file into numpy array
+vecDep = np.loadtxt(strPathCsv, comments='#', delimiter=",",
+                    converters=None, skiprows=0)
+
+# transpose numpy array for further processing
+vecDep = vecDep.T
 
 # Calculate average of dependent variable:
 vecDepAvg = np.mean(vecDep, axis=0)
@@ -333,7 +327,7 @@ for idxPlt in range(0, len(lstModPre)):
     axs01.set_ylim([vecYlim[0], vecYlim[1]])
 
     # Which y values to label with ticks:
-    vecYlbl = np.linspace(0, vecYlim[1], num=4, endpoint=True)
+    vecYlbl = np.linspace(0, vecYlim[1], num=6, endpoint=True)
     # Round:
     # Set ticks:
     axs01.set_yticks(vecYlbl)

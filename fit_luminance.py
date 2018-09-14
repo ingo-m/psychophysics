@@ -8,6 +8,7 @@ psychopy pixel intensity. Several functions are fitted to the data.
 
 Use @MSchnei's script for the luminance measurement:
 https://gist.github.com/MSchnei/bd282b1dbce85431ee61bbd955574279
+Or use the psychopy_measure_luminance.py provided with this distribution.
 """
 
 # Copyright (C) 2018  Ingo Marquardt

@@ -11,7 +11,7 @@ https://gist.github.com/MSchnei/bd282b1dbce85431ee61bbd955574279
 Or use the psychopy_measure_luminance.py provided with this distribution.
 """
 
-# Copyright (C) 2018  Ingo Marquardt
+# Copyright (C) 2018  Ingo Marquardt & Marian Schneider
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software

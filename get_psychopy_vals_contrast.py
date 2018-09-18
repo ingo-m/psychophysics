@@ -23,8 +23,8 @@ b3 = -190.2
 def calc_cntr(x, b0, b1, b2, b3):
     """Calculate contrast for given parameters of a polynomical function."""
     # get intensity
-    I1 = b3 * np.power(x, 3) + b2 * np.power(x, 2) + b1 * x + b0
-    I2 = b3 * np.power(-x, 3) + b2 * np.power(-x, 2) + b1 * -x + b0
+    I1 = b3 * np.power(x, 3.0) + b2 * np.power(x, 2.0) + b1 * x + b0
+    I2 = b3 * np.power(-x, 3.0) + b2 * np.power(-x, 2.0) + b1 * -x + b0
 
     # calculate contrast
     cntr = (I1 - I2) / (I1 + I2)
@@ -33,11 +33,11 @@ def calc_cntr(x, b0, b1, b2, b3):
 
 # %%  Calculate psychopy color value
 tempdiff = np.ones(10000)
-for ind, x in enumerate(np.linspace(0, 1, 10000)):
+for ind, x in enumerate(np.linspace(0.0, 1.0, 10000)):
     cntr = calc_cntr(x, b0, b1, b2, b3)
     tempdiff[ind] = np.abs(cntr - trgCntr)
 
-out_x = np.linspace(0, 1, 10000)[np.argmin(tempdiff)]
+out_x = np.linspace(0.0, 1.0, 10000)[np.argmin(tempdiff)]
 out_x = np.round(out_x, 2)
 
 print("Given the target value: " + str(trgCntr))
